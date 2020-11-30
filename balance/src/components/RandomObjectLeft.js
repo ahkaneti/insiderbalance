@@ -4,10 +4,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../styles/randomobj.css';
 
 
-const RandomObject = ({s, w, onKeyDown, right, left, barOffsetTop, calculateBalance}) => 
+const RandomObject = ({s, w,calculateBalance, leftHorizontal, setLeftHorizontal, gameState}) => 
 {
     const element = useRef();
-    const [top, setTop] = useState();
+    const [top, setTop] = useState(205);
+    const [horizontal, setHorizontal] = useState(470)
     const renderShape = () => 
     {
         switch(s) {
@@ -23,12 +24,11 @@ const RandomObject = ({s, w, onKeyDown, right, left, barOffsetTop, calculateBala
     const onPressed = e => {
         switch (e.keyCode) {
             case 39:
-                left = left + 55;
-                console.log(right + 'right')
+                setHorizontal(horizontal + 75)
+                setLeftHorizontal(horizontal)
                 break;
             case 37:
-                left = left - 55;
-                console.log(left + 'left')
+                setHorizontal(horizontal - 75);
                 break;
             default:
                 return true
@@ -37,27 +37,31 @@ const RandomObject = ({s, w, onKeyDown, right, left, barOffsetTop, calculateBala
 
     useEffect(() => {
         let interval;
-        if(top + 90 < barOffsetTop -50) {
-         interval = setInterval(() => {
+        if (!gameState)
+        {
+            if(top < 495) {
+                interval = setInterval(() => {
                 const newTop= top + 10;
                 setTop(newTop);
-        }, 300); } else {
-            calculateBalance();
+            }, 300); } else {
+                setLeftHorizontal((Math.round(horizontal/75) - 3));
+                console.log((Math.round(horizontal/75) - 3) + 'hiya');
+                calculateBalance();
+            }
+            document.addEventListener("keydown", e => onPressed(e));
+            return () => clearInterval(interval);
         }
-        document.addEventListener("keydown", e => onPressed(e));
-        return () => clearInterval(interval);
     });
 
     const objectStyle = 
     {
         position: 'absolute',
         top: `${top}px`,
-        right: `30%`,
-        left: `${left}px`,
+        left: `${horizontal}px`,
         fontSize: '15px', 
         bottom: '', 
         margin: '0px', 
-        display: 'contents'
+        transition: '1'
     }
     return (
         <div style={objectStyle} onKeyDown={onPressed} tabIndex="0">

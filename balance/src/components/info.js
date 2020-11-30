@@ -1,9 +1,8 @@
 import React from 'react';
 import '../styles/info.css';
 
-const Info = ({state, changeGameState, rightWeight, rightDistance, leftWeight, leftDistance}) =>
+const Info = ({state, changeGameState, rightWeight, rightDistance, leftWeight, leftDistance, start, changeStartState}) =>
 {
-
     return(
         <div className="menu">
             <div className='infoHolder'>
@@ -16,7 +15,16 @@ const Info = ({state, changeGameState, rightWeight, rightDistance, leftWeight, l
                     <p>Right side distance from center: {rightDistance} m</p>
                 </div>
             </div>
-            <button className="button" onClick={changeGameState}>{state? <p>Play</p> : <p>Pause</p>}</button>
+            {/* <button className="button" onClick={changeGameState}>
+                {state? <p>Play</p> : <p>Pause</p>}
+            </button> */}
+            {start ? <button className='button' onClick={changeGameState}> 
+                        {state ? <p>Play Game</p>: <p>Pause Game</p>}
+                    </button> : 
+                    <button className="button" onClick={changeStartState}>Start Game</button> 
+            }
+            
+
         </div>
     )
 }

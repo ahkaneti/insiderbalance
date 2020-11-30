@@ -24,7 +24,7 @@ const RandomObject = ({s, w, right, left}) =>
         position: 'absolute',
         right: `${right}px`,
         fontSize: '15px', 
-        bottom: '', 
+        bottom: '160px', 
         margin: '0px',
     }
     return (
