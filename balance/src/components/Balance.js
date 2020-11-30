@@ -17,7 +17,7 @@ const Balance = () =>
     const [rightShape, setRightShape] = useState();
 
     const [leftWeight, setLeftWeight] = useState(0);
-    const [leftHorizontal, setLeftHorizontal] = useState(0);
+    const [leftHorizontal, setLeftHorizontal] = useState(3);
     const [leftShape, setLeftShape] = useState();
     const [leftTop, setLeftTop] = useState();
 
@@ -27,9 +27,6 @@ const Balance = () =>
         transform: `skew(10deg, ${bend}deg)`
     });
     const [gameOver, setGameOver] = useState(false);
-    
-
-
     const changeStartState = () => 
     {
         setStart(true);
@@ -37,12 +34,11 @@ const Balance = () =>
         setRightShape(shape);
         setReightWeight(randomWeight);
         let rightVar = rightRight()
-        setBend(0)
         setActualRight((rightVar + 1))
         setRightDistance(rightRights[rightVar]);
         setLeftShape(shape);
         setLeftTop(100);
-        setLeftHorizontal(100);
+
         setLeftWeight(randomWeight);
     }
     const changeGameState = () => 
@@ -66,65 +62,46 @@ const Balance = () =>
 
     const calculateBalance = () =>
     {
-        var balance = (leftWeight * actualRight )/ (rightWeight * actualRight);
-        console.log(`${leftWeight} * ${actualRight}/ ${rightWeight} * ${actualRight}`);
-        if (balance === 1)
+        let balance = (leftWeight * leftHorizontal) / (rightWeight * actualRight);
+        if (balance > 1)
         {
-            console.log('hi my name is')
-            setBend(0);
+            setBend(balance* -10)
+            let speed = -10/bend;
             setBarStyle({
+                transition: `${speed}s`,
                 transform: `skew(10deg, ${bend}deg)`
             })
+        }
+        else if(balance < 1)
+        {
+            setBend(balance * 10)
+            let speed = 10/bend;
+            setBarStyle({
+                transition: `${speed}s`,
+                transform: `skew(10deg, ${bend}deg)`
+            })
+        }
+        if (balance >= 3 || balance <= 0.33)
+        {
+            setGameOver(true);
+        }
+        else
+        {
 
         }
-        else if (balance > 1 && 3 > balance)
-        {
-            setBend(-10);
-            setBarStyle({
-                transform: `skew(10deg, ${bend}deg)`
-            })
-
-        }
-        else if (balance >= 3)
-        {
-            setBend(-30);
-            setBarStyle({
-                transform: `skew(10deg, ${bend}deg)`
-            })
-
-            // setGameOver(true);
-        }
-        else if(balance < 1 && 0.3 < balance)
-        {
-            setBend(10);
-            setBarStyle({
-                transform: `skew(10deg, ${bend}deg)`
-            })
-
-        }
-        else if(balance <= 0.3)
-        {
-            setBend(30)
-            setBarStyle({
-                transform: `skew(10deg, ${bend}deg)`
-            })
-            // setGameOver(true);
-        }
-        console.log(bend + ' interesting')
     }
 
 
     return(
         <div className="screen">
-            <Info state={gameState} changeGameState={changeGameState} start={start} changeStartState={changeStartState} rightWeight={rightWeight} rightDistance={actualRight} leftWeight={leftWeight} leftHorizontal={actualRight}/>
-            {!gameOver && start &&
+            <Info state={gameState} changeGameState={changeGameState} start={start} changeStartState={changeStartState} rightWeight={rightWeight} rightDistance={actualRight} leftWeight={leftWeight} leftHorizontal={leftHorizontal}/>
+            {!gameOver&& start &&
             <div className="game-container">
-                <div>
-                <div className="random-shape-container">
+                {start && <div className="random-shape-container">
                     <RandomObject s={rightShape} w={rightWeight} right={rightDistance}/>
-                    <RandomObjectLeft s={leftShape} w={leftWeight} leftHorizontal={leftHorizontal} top={leftTop} calculateBalance={calculateBalance} setLeftHorizontal={setLeftHorizontal} gameState={gameState}/> 
-                </div>
-                <div className="bar-container">
+                    <RandomObjectLeft s={leftShape} w={leftWeight} calculateBalance={calculateBalance} setLeftHorizontal={setLeftHorizontal} gameState={gameState} gameOver={gameOver}/> 
+                </div>}
+                <div className="bar-container" style={barStyle}>
                     <div className="bar"/>
                     <div className="bar"/>
                     <div className="bar"/>
@@ -135,7 +112,6 @@ const Balance = () =>
                     <div className="bar"/>
                     <div className="bar"/>
                     <div className="bar"/>
-                </div>
                 </div>
                 <div className="balance-base"/>
             </div>}

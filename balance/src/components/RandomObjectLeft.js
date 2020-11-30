@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../styles/randomobj.css';
 
 
-const RandomObject = ({s, w,calculateBalance, leftHorizontal, setLeftHorizontal, gameState}) => 
+const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState, gameOver}) => 
 {
     const element = useRef();
     const [top, setTop] = useState(205);
@@ -24,11 +24,22 @@ const RandomObject = ({s, w,calculateBalance, leftHorizontal, setLeftHorizontal,
     const onPressed = e => {
         switch (e.keyCode) {
             case 39:
-                setHorizontal(horizontal + 75)
-                setLeftHorizontal(horizontal)
+                if(horizontal < 600)
+                {
+                    console.log(horizontal)
+                    let temp = horizontal + 75;
+                    setHorizontal(temp)
+                    setLeftHorizontal(Math.round(640 - temp/75) - 631)
+                }
                 break;
             case 37:
-                setHorizontal(horizontal - 75);
+                if(horizontal > 320)
+                {
+                    console.log(horizontal)
+                    let temp = horizontal - 75;
+                    setHorizontal(temp)
+                    setLeftHorizontal(Math.round(640 - temp/75) - 631)
+                }
                 break;
             default:
                 return true
@@ -37,16 +48,14 @@ const RandomObject = ({s, w,calculateBalance, leftHorizontal, setLeftHorizontal,
 
     useEffect(() => {
         let interval;
-        if (!gameState)
+        if (!gameState && !gameOver)
         {
             if(top < 495) {
                 interval = setInterval(() => {
                 const newTop= top + 10;
                 setTop(newTop);
             }, 300); } else {
-                setLeftHorizontal((Math.round(horizontal/75) - 3));
-                console.log((Math.round(horizontal/75) - 3) + 'hiya');
-                calculateBalance();
+                calculateBalance()
             }
             document.addEventListener("keydown", e => onPressed(e));
             return () => clearInterval(interval);
@@ -61,11 +70,14 @@ const RandomObject = ({s, w,calculateBalance, leftHorizontal, setLeftHorizontal,
         fontSize: '15px', 
         bottom: '', 
         margin: '0px', 
-        transition: '1'
+        transition: '1s', 
+        height: `${w*10}px`, 
+        width: `${w*10}px`
     }
     return (
-        <div style={objectStyle} onKeyDown={onPressed} tabIndex="0">
+        <div style={objectStyle} onKeyUp={onPressed} tabIndex="0">
             {renderShape()}
+            {console.log(`${w}`)}
         </div>
     );
 }

@@ -26,6 +26,8 @@ const RandomObject = ({s, w, right, left}) =>
         fontSize: '15px', 
         bottom: '160px', 
         margin: '0px',
+        height: `${w*10}px`, 
+        width: `${w*10}px`
     }
     return (
         <div style={objectStyle}tabIndex="0">
