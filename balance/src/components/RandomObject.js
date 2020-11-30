@@ -1,30 +1,37 @@
-import React, {useState, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 
 
-const RandomObject = ({s, w, top, right, onKeyDown, left}) => 
+import '../styles/randomobj.css';
+
+
+const RandomObject = ({s, w, right, left}) => 
 {
-
-    const element = useRef();
     const renderShape = () => 
     {
         switch(s) {
-            case 1: 
-                return <div classame="triangle" ref={element}> <div className="weightText"> {w} </div> </div>;
+            case 0: 
+                return <div className="triangle"> <p className="weight-text">{w}</p> </div>;
             case 2:
-                return <div classame="square" ref={element}> <div className="weightText"> {w} </div> </div>;
+                return <div className="square"> {w} </div>;
              default: 
-                return <div classame="circle" ref={element}> <div className="weightText"> {w} </div> </div>;
+                return <div className="circle"> {w} </div>;
         }
+        
     };
+
     const objectStyle = 
     {
         position: 'absolute',
-        top: `${top}px`,
         right: `${right}px`,
-        left: `${left}px`,
         fontSize: '15px', 
-        bottom: 0
+        bottom: '', 
+        margin: '0px'
     }
+    return (
+        <div style={objectStyle}tabIndex="0">
+            {renderShape()}
+        </div>
+    );
 }
 
 export default RandomObject;

@@ -19,6 +19,12 @@
     display: flex;
     flex-direction: row;
 }
+.random-shape-container
+{
+    width: 100%;
+    height: 300px;
+    display: flex;
+}
 
 .bar
 {
