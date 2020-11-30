@@ -1,14 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 
 import '../styles/randomobj.css';
 
 
-const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState, gameOver}) => 
+const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState,setGameState, gameOver}) => 
 {
     const element = useRef();
     const [top, setTop] = useState(205);
-    const [horizontal, setHorizontal] = useState(470)
+    const [horizontal, setHorizontal] = useState(360)
     const renderShape = () => 
     {
         switch(s) {
@@ -21,22 +21,22 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState, game
         }
         
     };
-    const onPressed = e => {
+    const onPressed = useCallback(e => {
         switch (e.keyCode) {
             case 39:
-                if(horizontal < 600)
+                if(horizontal < 615)
                 {
                     console.log(horizontal)
-                    let temp = horizontal + 75;
+                    let temp = horizontal + 85;
                     setHorizontal(temp)
                     setLeftHorizontal(Math.round(640 - temp/75) - 631)
                 }
                 break;
             case 37:
-                if(horizontal > 320)
+                if(horizontal > 155)
                 {
                     console.log(horizontal)
-                    let temp = horizontal - 75;
+                    let temp = horizontal - 85;
                     setHorizontal(temp)
                     setLeftHorizontal(Math.round(640 - temp/75) - 631)
                 }
@@ -44,23 +44,33 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState, game
             default:
                 return true
         }
-    };
+    }, [horizontal, setLeftHorizontal]);
 
     useEffect(() => {
         let interval;
         if (!gameState && !gameOver)
         {
-            if(top < 495) {
-                interval = setInterval(() => {
-                const newTop= top + 10;
-                setTop(newTop);
-            }, 300); } else {
-                calculateBalance()
-            }
+            let i = 0;
+            console.log(i = i + 1)   
+            interval = setInterval(() => 
+            {
+                    setTop(prev =>{
+                        if(prev < 485)
+                        { return prev + 10 } 
+                        else 
+                        {
+                            console.log('hi')
+                            calculateBalance();
+                            setGameState(prev => !prev)
+                            return prev;
+                        }
+                    })
+                
+            }, 300); 
             document.addEventListener("keydown", e => onPressed(e));
             return () => clearInterval(interval);
         }
-    });
+    }, [gameState, gameOver, calculateBalance, onPressed, setGameState]);
 
     const objectStyle = 
     {
@@ -71,8 +81,8 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState, game
         bottom: '', 
         margin: '0px', 
         transition: '1s', 
-        height: `${w*10}px`, 
-        width: `${w*10}px`
+        height: `${20+(w-1)*8}px`, 
+        width: `${20+(w-1)*8}px`
     }
     return (
         <div style={objectStyle} onKeyUp={onPressed} tabIndex="0">

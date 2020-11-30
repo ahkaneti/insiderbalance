@@ -98,8 +98,8 @@ const Balance = () =>
             {!gameOver&& start &&
             <div className="game-container">
                 {start && <div className="random-shape-container">
-                    <RandomObject s={rightShape} w={rightWeight} right={rightDistance}/>
-                    <RandomObjectLeft s={leftShape} w={leftWeight} calculateBalance={calculateBalance} setLeftHorizontal={setLeftHorizontal} gameState={gameState} gameOver={gameOver}/> 
+                    <RandomObject s={rightShape} w={rightWeight} right={rightDistance} actualRight={actualRight}/>
+                    <RandomObjectLeft s={leftShape} w={leftWeight} calculateBalance={calculateBalance} setLeftHorizontal={setLeftHorizontal} gameState={gameState} setGameState={setGameState} gameOver={gameOver}/> 
                 </div>}
                 <div className="bar-container" style={barStyle}>
                     <div className="bar"/>
