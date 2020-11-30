@@ -4,7 +4,7 @@ import React from 'react';
 import '../styles/randomobj.css';
 
 
-const RandomObject = ({s, w, right, left}) => 
+const RandomObject = ({s, w, right, actualRight}) => 
 {
     const renderShape = () => 
     {
@@ -22,15 +22,25 @@ const RandomObject = ({s, w, right, left}) =>
     const objectStyle = 
     {
         position: 'absolute',
-        right: `${right}px`,
+        right: `${83+ (5 - actualRight) * 110 + w}px`,
         fontSize: '15px', 
         bottom: '160px', 
         margin: '0px',
-        height: `${w*10}px`, 
-        width: `${w*10}px`
+        height: `${20 + ((w - 1) * 7)}px`, 
+        width: `${20 + ((w - 1) * 7)}px`, 
+    }
+    const triangleStyle=
+    {
+        position: 'absolute',
+        right: `${83+ (5 - actualRight) * 110}px`,
+        fontSize: '15px', 
+        bottom: '160px', 
+        margin: '0px',
+        height: 'auto',
+        width: 'auto',
     }
     return (
-        <div style={objectStyle}tabIndex="0">
+        <div style={s === 0 ? triangleStyle:objectStyle}tabIndex="0">
             {renderShape()}
         </div>
     );

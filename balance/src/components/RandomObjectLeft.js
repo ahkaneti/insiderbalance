@@ -8,7 +8,7 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState,setGa
 {
     const element = useRef();
     const [top, setTop] = useState(205);
-    const [horizontal, setHorizontal] = useState(360)
+    const [horizontal, setHorizontal] = useState(390)
     const renderShape = () => 
     {
         switch(s) {
@@ -24,19 +24,19 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState,setGa
     const onPressed = useCallback(e => {
         switch (e.keyCode) {
             case 39:
-                if(horizontal < 615)
+                if(horizontal < 600)
                 {
                     console.log(horizontal)
-                    let temp = horizontal + 85;
+                    let temp = horizontal + 110;
                     setHorizontal(temp)
                     setLeftHorizontal(Math.round(640 - temp/75) - 631)
                 }
                 break;
             case 37:
-                if(horizontal > 155)
+                if(horizontal > 210)
                 {
                     console.log(horizontal)
-                    let temp = horizontal - 85;
+                    let temp = horizontal - 110;
                     setHorizontal(temp)
                     setLeftHorizontal(Math.round(640 - temp/75) - 631)
                 }
@@ -81,8 +81,8 @@ const RandomObject = ({s, w,calculateBalance, setLeftHorizontal, gameState,setGa
         bottom: '', 
         margin: '0px', 
         transition: '1s', 
-        height: `${20+(w-1)*8}px`, 
-        width: `${20+(w-1)*8}px`
+        height: `${20 + ((w - 1) * 7)}px`, 
+        width: `${20 + ((w - 1) * 7)}px`, 
     }
     return (
         <div style={objectStyle} onKeyUp={onPressed} tabIndex="0">
