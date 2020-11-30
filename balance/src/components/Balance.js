@@ -9,6 +9,7 @@ import RandomObjectLeft from './RandomObjectLeft';
 const Balance = () =>
 {
     const [gameState, setGameState] = useState(false);
+    const [start, setStart] = useState(false);
 
     const [rightWeight, setReightWeight] = useState(0);
     const [rightDistance, setRightDistance] = useState(0);
@@ -26,6 +27,7 @@ const Balance = () =>
 
     const changeGameState = () => 
     {
+        setStart(true);
         setGameState(!gameState);
         setRightShape(shape);
         setReightWeight(randomWeight);
@@ -89,7 +91,7 @@ const Balance = () =>
     return(
         <div className="screen">
             <Info state={gameState} changeGameState={changeGameState} rightWeight={rightWeight} rightDistance={rightDistance} leftWeight={leftWeight} leftDistance={leftDistance}/>
-            {!gameOver && 
+            {!gameOver && start &&
             <div className="game-container">
                 <div className="random-shape-container">
                     <RandomObject s={rightShape} w={rightWeight} right={rightDistance}/>

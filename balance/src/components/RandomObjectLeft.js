@@ -23,11 +23,11 @@ const RandomObject = ({s, w, onKeyDown, right, left, barOffsetTop, calculateBala
     const onPressed = e => {
         switch (e.keyCode) {
             case 39:
-                right = right + 55;
+                left = left + 55;
                 console.log(right + 'right')
                 break;
             case 37:
-                left = left + 55;
+                left = left - 55;
                 console.log(left + 'left')
                 break;
             default:
@@ -56,7 +56,8 @@ const RandomObject = ({s, w, onKeyDown, right, left, barOffsetTop, calculateBala
         left: `${left}px`,
         fontSize: '15px', 
         bottom: '', 
-        margin: '0px'
+        margin: '0px', 
+        display: 'contents'
     }
     return (
         <div style={objectStyle} onKeyDown={onPressed} tabIndex="0">
